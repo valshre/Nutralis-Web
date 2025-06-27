@@ -1,0 +1,167 @@
+.perfil-view {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 100px 25px 25px 25px; /* espacio arriba para el nav */
+  font-family: 'Arial', sans-serif;
+  color: #2c3e50;
+  background-color: #FFFFE0;
+  min-height: 100vh;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font-size: 18px; /* letras más grandes base */
+  line-height: 1.6;
+}
+
+.dieta{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #939899;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 25px;
+  margin-right: 76px;
+  width: 13%;
+  
+}
+
+.dieta:hover{
+   background: #4B692F;
+}
+
+/* Recuadros destacados con sombra suave y bordes redondeados */
+.profile-header,
+.profile-card,
+.company-badge {
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border: none;
+  transition: box-shadow 0.3s ease;
+}
+.profile-header {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alinea el botón con el nombre */
+}
+
+.profile-details {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap; 
+  font-size: 22px;
+}
+
+.profile-header h1 {
+  margin-bottom: 10px; /* Espacio entre nombre y detalles */
+}
+
+/* Al hacer hover, sombra un poco más marcada */
+.profile-header:hover,
+.profile-card:hover,
+.company-badge:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
+
+
+/* Info de perfil */
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-info h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #3a4d1f;
+
+}
+
+.profile-info p {
+  margin: 6px 0;
+  font-size: 22px;
+  color: #667349;
+  font-weight: 500;
+}
+
+/* Badge empresa */
+.company-badge p {
+  margin: 0;
+  color: #4b692f;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Títulos en las tarjetas */
+.profile-card h2 {
+  margin-top: 0;
+  color: #3a4d1f;
+  font-size: 30px;
+  font-weight: 700;
+  border-bottom: 2px solid #d1d9a7;
+  padding-bottom: 12px;
+
+}
+
+/* Tabla antropométrica */
+.anthropometric-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 25px;
+}
+
+.anthropometric-table th, 
+.anthropometric-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e3e7cc;
+}
+
+.anthropometric-table th {
+  background-color: #f2f5e6;
+  color: #4b692f;
+  font-weight: 600;
+}
+
+
+/* Listas dentro de card-content */
+.card-content ul,p {
+  padding-left: 24px;
+  font-size: 22px;
+  color: #556b2f;
+}
+
+.card-content li {
+  margin-bottom: 10px;
+}
+.ver-dietas-btn {
+width: 100%;
+  padding: 1.5rem;
+  background: white;
+  border: 2px dashed #556b2f;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 27px;
+  color: #556b2f;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.ver-dietas-btn:hover {
+  border-color: #4B692F;
+  color: #4B692F;
+}

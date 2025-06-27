@@ -1,0 +1,200 @@
+body {
+  background-color: #FFFFE0;
+  font-size: 22px;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dieta2-container {
+  width: 80%;
+  padding: 20px;
+  background-color: #FFFFE0;
+  margin: 0;
+}
+
+.dieta2-content {
+  display: flex;
+  margin-top: 100px;
+  gap: 30px;
+}
+
+.select-sugerencias {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  font-size: 22px;
+}
+
+
+.configuracion {
+  width: 25%;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 22px;
+}
+
+.configuracion h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.configuracion h3 {
+  font-size: 28px;
+  margin-top: 20px;
+}
+
+.configuracion .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.dot.blue { background-color: blue; }
+.dot.green { background-color: green; }
+.dot.orange { background-color: orange; }
+
+.gramos {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.calorias-totales {
+  margin-top: 20px;
+  color: red;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.tiempos-comida {
+  width: 75%;
+}
+
+.tiempos-comida h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.bloque-comida {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.titulo-tiempo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.titulo-tiempo h3 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.btn-agregar {
+  display: block;
+  margin: 10px auto 20px auto;
+  padding: 6px 12px;
+  font-size: 16px;
+  background-color: #556B2F;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.form-alimento {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-alimento input {
+  padding: 8px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.form-alimento button {
+  display: block;
+  margin: 0 auto;
+  background-color: #556B2F;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 18px;
+  width: 150px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.vacio {
+  font-style: italic;
+  color: gray;
+}
+
+.recomendaciones {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.recomendaciones h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 6px;
+  margin: 4px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-eliminar {
+  display: block;
+  margin: 10px auto;
+  font-size: 16px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d1616c;
+  color: white;
+  cursor: pointer;
+  width: 120px;
+}
+
+.guardar-dieta {
+  display: block;
+  margin: 20px auto;
+  background-color: #556B2F;
+  color: white;
+  font-size: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 180px;
+}

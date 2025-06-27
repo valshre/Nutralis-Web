@@ -1,0 +1,115 @@
+/* Estructura principal */
+.inicio-view {
+  display: flex;
+  min-height: 100vh;
+  background-color: #FFFFE0;
+  font-size: 22px;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.contenido-principal {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 250px; /* Ancho del panel de navegación */
+}
+
+.contenido-principal h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+
+.buscador-container {
+  position: relative;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.buscador-container input {
+  width: 100%;
+  padding: 0.75rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 21px;
+}
+
+.icono-busqueda {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7f8c8d;
+  padding: 10px;
+}
+
+/* Lista de pacientes */
+.lista-pacientes {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tarjeta-paciente {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.info-paciente h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.info-paciente p {
+  color: #7f8c8d;
+  margin: 0.25rem 0;
+}
+
+/* Botones de acción */
+.acciones-paciente {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.acciones-paciente button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #939899;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 21px;
+  width: 17%;
+}
+
+.acciones-paciente button:hover {
+  background: #4B692F;
+}
+
+/* Botón nuevo paciente */
+.boton-nuevo-paciente {
+  width: 100%;
+  padding: 1.5rem;
+  background: white;
+  border: 2px dashed #bdc3c7;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.boton-nuevo-paciente:hover {
+  border-color: #4B692F;
+  color: #4B692F;
+}

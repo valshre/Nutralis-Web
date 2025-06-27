@@ -1,0 +1,172 @@
+.admin-container {
+  font-family: sans-serif;
+}
+
+.admin-content {
+  padding: 2rem;
+  margin-left: 300px;
+}
+
+.admin-title {
+  font-size: 32px;
+  margin-bottom: 0.5rem;
+}
+
+.admin-description {
+  font-size: 22px;
+  margin-bottom: 2rem;
+  color: #444;
+}
+
+.admin-filtros {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-busqueda {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 18px;
+}
+
+.admin-dropdown select {
+  padding: 0.5rem;
+  font-size: 18px;
+}
+
+.admin-total {
+  font-size: 18px;
+  color: #666;
+}
+
+.admin-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+}
+
+.admin-card {
+  background: #fff9e5;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+   background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 22px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  
+}
+
+.admin-avatar {
+  background: #e0904e;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-info {
+  flex: 1;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 22px;
+}
+
+.estado {
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.estado.aprobado {
+  background-color: #c1f6d4;
+  color: #087e4f;
+}
+
+.estado.pendiente {
+  background-color: #ffeaa7;
+  color: #c27c00;
+}
+
+.estado.rechazado {
+  background-color: #fab1a0;
+  color: #b33939;
+}
+
+.admin-detalles p {
+  margin: 0.2rem 0;
+  font-size: 18px;
+}
+
+.admin-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.ver-detalles,
+.aceptar,
+.rechazar,
+.desactivar {
+  padding: 0.3rem 0.8rem;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.aceptar {
+  background-color: #27ae60;
+  color: white;
+}
+
+.rechazar {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.menu-desplegable {
+  position: relative;
+}
+
+.mas-opciones {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.menu-contenido {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menu-desplegable:hover .menu-contenido {
+  display: flex;
+}

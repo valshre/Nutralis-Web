@@ -1,0 +1,56 @@
+.navigationPanel {
+  position: fixed;           /* Se queda pegada arriba */
+  top: 0;                    /* Sin espacio superior */
+  left: 0;                   /* Sin espacio izquierdo */
+  right: 0;                  /* Sin espacio derecho */
+  width: 100vw;              /* Ocupar todo el ancho de la pantalla */
+  background-color: white;
+  padding: 15px 20px;
+  box-shadow: none;          /* Quitar sombra */
+  border-bottom: 1px solid #ccc; /* Línea divisoria gris */
+  z-index: 1000;             /* Asegura que esté sobre otros elementos */
+  margin: 0;                 /* Eliminar cualquier margen */
+  font-family: 'Arial', sans-serif;
+}
+
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #4B692F;
+  font-size: 21px;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+
+.backIcon {
+  font-size: 27px;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 30px;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.2s ease-in-out;
+}
+
+
+.navIcon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
