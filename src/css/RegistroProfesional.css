@@ -1,11 +1,16 @@
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  
+  padding: 0;
+}
+
+body {
+  background-color: white;
 }
 
 .registro-container {
   background-color: white;
-  min-height: 800vh;
+ min-height: 100vh; /* 100% altura ventana */
 }
 
 .barra-superior {
@@ -41,35 +46,85 @@ body {
   height: 290px;
 }
 
-.formulario {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 360px;
-  padding-left: 100px;
-}
 .texto-titulo{
     font-size: 44px;
     text-align: center;
    color: black;
    font-weight: 700;
+   margin-bottom: 5px;
 }
+.fila.una-columna input {
+  margin: 0;
+}
+
 
 .titulo{
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
 }
+.formulario {
+  max-width: 840px;
+  width: 100%;
+  min-width: 320px;
+  box-sizing: border-box;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+
+
+.fila {
+  display: grid;
+  width: 100%;
+  gap: 15px;
+}
+
+.tres-columnas {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dos-columnas {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.una-columna {
+  grid-template-columns: 1fr;
+}
+
+/* Inputs más grandes, más legibles */
+.formulario input[type="text"],
+.formulario input[type="email"],
+.formulario input[type="password"],
+.formulario input[type="tel"],
+.formulario input[type="number"],
 .formulario input {
-  padding: 10px;
+  width: 100%;
+  height: 50px;      /* un poco más alto */
+  padding: 12px 14px; /* más padding */
+  font-size: 20px;    /* texto más grande */
   border-radius: 6px;
   border: 1px solid #ccc;
   background-color: #fefae0;
-  font-size: 20px;
-
+  box-sizing: border-box;
+  margin-bottom: 0;   /* quitamos el margin para controlar con gap */
 }
+
+.error {
+  width: 700px; 
+  max-width: 100%;
+  color: #a70000;
+  border-radius: 6px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: left;
+  box-sizing: border-box;
+  font-size: 22px;
+}
+
 
 .btn-enviar {
   background-color: #2d3d25;

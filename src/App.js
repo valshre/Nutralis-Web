@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children, requiredUserType = null }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Si se requiere un tipo específico de usuario
+  
   if (requiredUserType && userType !== requiredUserType) {
     return <Navigate to="/no-autorizado" replace />;
   }
@@ -61,9 +61,9 @@ export default function App() {
         
         {/* Rutas protegidas */}
         <Route path="/inicio" element={
-          <ProtectedRoute>
+        
             <Inicio />
-          </ProtectedRoute>
+        
         } />
         
         <Route path="/perfil" element={

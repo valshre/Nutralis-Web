@@ -1,10 +1,5 @@
-import { 
-  Speedometer2, 
-  People, 
-  FileEarmarkText, 
-  Gear 
-} from "react-bootstrap-icons";
-import { useNavigate } from 'react-router-dom';
+import { People, FileEarmarkText, Gear } from "react-bootstrap-icons";
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../css/NavigationPanel.module.css';
 
@@ -12,65 +7,84 @@ export default function NavigationPanel() {
   const navigate = useNavigate();
 
   const handleLogout = async (e) => {
-    e.preventDefault(); // Prevenir el comportamiento por defecto del enlace
-    
+    e.preventDefault();
+
+    const nutriologo = JSON.parse(localStorage.getItem('nutriologo'));
+    const token = localStorage.getItem('token');
+
+    if (!nutriologo || !nutriologo.id_nut || !token) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('nutriologo');
+      navigate('/login');
+      return;
+    }
+
     try {
-      // Hacer la petición de logout al servidor
-      const response = await axios.post('http://localhost:3001/api/logout', {}, {
-        withCredentials: true
-      });
-      
-      if (response.data.success) {
-        // Limpiar el almacenamiento local
-        localStorage.removeItem('userData');
-        localStorage.removeItem('userType');
-        sessionStorage.removeItem('tempData'); // Si usas sessionStorage
-        
-        // Redirigir al login
+      const response = await axios.post(
+        'http://localhost:3001/api/nutriologos/logout',
+        { id_nut: nutriologo.id_nut },
+        {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.data.message === 'Sesión cerrada correctamente') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('nutriologo');
+        sessionStorage.clear();
         navigate('/login');
       } else {
-        console.error('Error en la respuesta de logout:', response.data.message);
-        // Aún así limpiar y redirigir
-        localStorage.removeItem('userData');
-        localStorage.removeItem('userType');
+        console.error('Respuesta inesperada al cerrar sesión:', response.data);
+        localStorage.removeItem('token');
+        localStorage.removeItem('nutriologo');
         navigate('/login');
       }
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
-      // Aún así limpiar y redirigir
-      localStorage.removeItem('userData');
-      localStorage.removeItem('userType');
+      localStorage.removeItem('token');
+      localStorage.removeItem('nutriologo');
       navigate('/login');
     }
   };
 
   return (
     <div className={styles.navigationPanel}>
-      {/* Items de navegación */}
       <nav className={styles.navMenu}>
-        <a href="/inicio" className={styles.navItem}>
+        <Link to="/inicio" className={styles.navItem}>
           <People className={styles.navIcon} />
           <span>Pacientes</span>
-        </a>
-        <a href="/reportes" className={styles.navItem}>
+        </Link>
+        <Link to="/reportes" className={styles.navItem}>
           <FileEarmarkText className={styles.navIcon} />
           <span>Reportes</span>
-        </a>
-        <a href="/cuenta" className={styles.navItem}>
+        </Link>
+        <Link to="/cuenta" className={styles.navItem}>
           <Gear className={styles.navIcon} />
           <span>Cuenta</span>
-        </a>
-        <a href="/Admin" className={styles.navItem}>
+        </Link>
+        <Link to="/admin" className={styles.navItem}>
           <Gear className={styles.navIcon} />
-          <span>Admin view</span>
-        </a>
-        <a 
-          href="/salir" 
-          className={styles.navItem}
+          <span>Admin View</span>
+        </Link>
+        <button
           onClick={handleLogout}
+          className={styles.navItem}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            color: 'inherit',
+            font: 'inherit'
+          }}
+          aria-label="Cerrar sesión"
         >
           <span>Salir</span>
-        </a>
+        </button>
       </nav>
     </div>
   );

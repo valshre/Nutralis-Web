@@ -36,7 +36,7 @@ const AuthWrapper = ({ children }) => {
   }, [navigate]);
 
   if (loading) {
-    return <div>Cargando...</div>; // Puedes poner un spinner aquí
+    return <div>Cargando...</div>; 
   }
 
   return isValid ? children : null;

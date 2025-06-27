@@ -10,53 +10,42 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevenir comportamiento por defecto del formulario
+    e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch('http://localhost:3001/api/nutriologos/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
-        body: JSON.stringify({ 
-          correo: correo.trim(), 
-          password: password.trim() 
+        body: JSON.stringify({
+          correo: correo.trim(),
+          password: password.trim(),
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error en la solicitud');
+        throw new Error(data.error || 'Error en la solicitud');
       }
 
-      if (data.success) {
-       
-        localStorage.setItem('userData', JSON.stringify(data.user));
-        localStorage.setItem('userType', data.user.userType);
-        
-        // Redirigir según el tipo de usuario
-        switch(data.user.userType) {
-          case 'admin':
-            navigate('/admin');
-            break;
-          case 'nutriologo':
-            navigate('/inicio');
-            break;
-          case 'cliente':
-            navigate('/perfil');
-            break;
-          default:
-            navigate('/inicio');
-        }
-      } else {
-        setError(data.message || 'Credenciales incorrectas');
-      }
+      // Guardar token y datos del nutriólogo
+      localStorage.setItem('token', data.token);
+      localStorage.setItem(
+        'nutriologo',
+        JSON.stringify({
+          id_nut: data.id_nut,
+          nombre: data.nombre,
+          tipo_usu: data.tipo_usu || 1,
+        })
+      );
+
+      // Redirigir a la pantalla principal
+      navigate('/inicio');
     } catch (err) {
-      console.error('Error en login:', err);
       setError(err.message || 'Error al conectar con el servidor');
     } finally {
       setIsLoading(false);
@@ -91,21 +80,17 @@ export default function Login() {
 
           {error && <p className="error-text">{error}</p>}
 
-          <button 
-            type="submit" 
-            className="btn-enviar"
-            disabled={isLoading}
-          >
+          <button type="submit" className="btn-enviar" disabled={isLoading}>
             {isLoading ? 'Cargando...' : 'Ingresar'}
           </button>
 
-          <p className="texto-login">
-            ¿No estás registrado?{' '}
-            
-              Regístrate aquí
-            
-          </p>
-          <button className="btn-iniciar" onClick={() => navigate('/registroprofesional')}>
+          <p className="texto-login">¿No estás registrado?</p>
+
+          <button
+            type="button"
+            className="btn-iniciar"
+            onClick={() => navigate('/registroprofesional')}
+          >
             Registrarse
           </button>
         </form>
