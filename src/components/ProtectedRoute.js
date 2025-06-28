@@ -1,21 +1,25 @@
-// src/components/ProtectedRoute.js
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, userType = null }) => {
-  // Obtener datos de usuario del localStorage
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  const storedUserType = localStorage.getItem('userType');
-  
-  // Si no hay usuario o no coincide el tipo requerido
-  if (!userData || !storedUserType) {
+  const nutriologo = JSON.parse(localStorage.getItem('nutriologo'));
+  const storedUserType = nutriologo?.tipo_usu;
+
+  if (!nutriologo || storedUserType === undefined || storedUserType === null) {
     return <Navigate to="/login" replace />;
   }
-  
-  // Si se especificó un tipo de usuario y no coincide
-  if (userType && storedUserType !== userType) {
-    return <Navigate to="/no-autorizado" replace />;
+
+  if (userType) {
+    if (Array.isArray(userType)) {
+      if (!userType.map(String).includes(String(storedUserType))) {
+        return <Navigate to="/no-autorizado" replace />;
+      }
+    } else {
+      if (String(storedUserType) !== String(userType)) {
+        return <Navigate to="/no-autorizado" replace />;
+      }
+    }
   }
-  
+
   return children;
 };
 

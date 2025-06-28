@@ -3,6 +3,7 @@ import { Search, PlusCircle, Person, JournalText } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import NavigationPanel from '../components/NavigationPanel';
 import '../css/Inicio.css';
+import AuthWrapper from '../components/AuthWrapper';
 
 const Inicio = () => {
    const navigate = useNavigate();

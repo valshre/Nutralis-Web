@@ -1,4 +1,6 @@
 import { People, FileEarmarkText, Gear } from "react-bootstrap-icons";
+import { BoxArrowRight } from "react-bootstrap-icons";
+
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../css/NavigationPanel.module.css';
@@ -75,15 +77,13 @@ export default function NavigationPanel() {
           className={styles.navItem}
           style={{
             background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-            color: 'inherit',
-            font: 'inherit'
+           padding:0,
+           marginRight:-44
           }}
           aria-label="Cerrar sesión"
         >
-          <span>Salir</span>
+          <BoxArrowRight className={styles.navIcon} />
+  <span>Salir</span>
         </button>
       </nav>
     </div>

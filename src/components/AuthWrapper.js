@@ -11,21 +11,29 @@ const AuthWrapper = ({ children }) => {
   useEffect(() => {
     const verifySession = async () => {
       try {
+        const nutriologo = JSON.parse(localStorage.getItem('nutriologo'));
+        const token = localStorage.getItem('token');
+
+        if (!nutriologo || !token) throw new Error('No session data');
+
         const response = await axios.get('http://localhost:3001/api/verify-session', {
-          withCredentials: true
+          headers: {
+            id_nut: nutriologo.id_nut,
+            token: token,
+          }
         });
-        
+
         if (response.data.success) {
           setIsValid(true);
         } else {
-          localStorage.removeItem('userData');
-          localStorage.removeItem('userType');
+          localStorage.removeItem('nutriologo');
+          localStorage.removeItem('token');
           navigate('/login');
         }
       } catch (error) {
         console.error('Error verifying session:', error);
-        localStorage.removeItem('userData');
-        localStorage.removeItem('userType');
+        localStorage.removeItem('nutriologo');
+        localStorage.removeItem('token');
         navigate('/login');
       } finally {
         setLoading(false);
@@ -35,9 +43,7 @@ const AuthWrapper = ({ children }) => {
     verifySession();
   }, [navigate]);
 
-  if (loading) {
-    return <div>Cargando...</div>; 
-  }
+  if (loading) return <div>Cargando...</div>;
 
   return isValid ? children : null;
 };

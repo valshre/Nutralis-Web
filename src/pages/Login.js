@@ -37,9 +37,9 @@ export default function Login() {
       localStorage.setItem(
         'nutriologo',
         JSON.stringify({
-          id_nut: data.id_nut,
-          nombre: data.nombre,
-          tipo_usu: data.tipo_usu || 1,
+         id_nut: data.id_nut,
+    nombre: data.nombre,
+    tipo_usu: data.tipo_usu
         })
       );
 

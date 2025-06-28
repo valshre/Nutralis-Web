@@ -89,6 +89,7 @@ router.post('/nutriologos/login', (req, res) => {
           id_nut: nutriologo.id_nut,
           nombre: nutriologo.nombre_nut,
           token: newToken,
+          tipo_usu: nutriologo.tipo_usu
         });
       }
     );
@@ -109,5 +110,37 @@ router.post('/nutriologos/logout', (req, res) => {
     }
   );
 });
+
+const verifyToken = (req, res, next) => {
+  const id_nut = req.headers['id_nut'];
+  const token = req.headers['token'];
+
+  if (!id_nut || !token) {
+    return res.status(401).json({ error: 'Faltan credenciales de autenticación' });
+  }
+
+  const sql = 'SELECT token FROM nutriologos WHERE id_nut = ?';
+
+  db.query(sql, [id_nut], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Error en la base de datos' });
+
+    if (results.length === 0) {
+      return res.status(403).json({ error: 'Usuario no encontrado' });
+    }
+
+    const tokenBD = results[0].token;
+
+    if (!tokenBD) {
+      return res.status(403).json({ error: 'No hay sesión activa' });
+    }
+
+    if (tokenBD !== token) {
+      return res.status(403).json({ error: 'Token inválido' });
+    }
+
+    next();
+  });
+};
+
 
 module.exports = router;
