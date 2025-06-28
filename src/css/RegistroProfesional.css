@@ -10,7 +10,7 @@ body {
 
 .registro-container {
   background-color: white;
- min-height: 100vh; /* 100% altura ventana */
+ min-height: 100vh; 
 }
 
 .barra-superior {
