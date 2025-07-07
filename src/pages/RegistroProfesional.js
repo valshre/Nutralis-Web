@@ -102,7 +102,7 @@ export default function RegistroProfesional() {
 
           {error && <p className="error">{error}</p>}
 
-          <div className="fila tres-columnas">
+         <div className="fila dos-columnas">
             <input
               type="text"
               name="nombre_nut"
@@ -115,15 +115,16 @@ export default function RegistroProfesional() {
               placeholder="Apellido paterno"
               onChange={handleChange}
             />
+             </div>
+
+        <div className="fila dos-columnas">
             <input
               type="text"
               name="apm_nut"
               placeholder="Apellido materno (opcional)"
               onChange={handleChange}
             />
-          </div>
-
-          <div className="fila una-columna">
+        
             <input
               type="email"
               name="correo"
@@ -147,7 +148,7 @@ export default function RegistroProfesional() {
             />
           </div>
 
-          <div className="fila tres-columnas">
+        <div className="fila dos-columnas">
             <input
               type="text"
               name="cedula"
@@ -160,6 +161,8 @@ export default function RegistroProfesional() {
               placeholder="Especialidad (Opcional)"
               onChange={handleChange}
             />
+             </div>
+             <div className="fila una-columna">
             <input
               type="tel"
               name="telefono"

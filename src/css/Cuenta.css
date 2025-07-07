@@ -15,7 +15,19 @@ margin-left: 14%;
   padding-left: 10px;
   
 }
+/* Título con mejor espaciado */
+.titulo {
+  padding: 40px 0 30px; /* Más espacio arriba y abajo */
+  text-align: center;
+  margin-top: 48px; /* Separación adicional del formulario */
+}
 
+.texto-titulo {
+  font-size: 2.8rem; /* Aprox 45px */
+  color: var(--dark-color);
+  font-weight: 700;
+  margin: 0;
+}
 .cuenta-content > h2.titulo {
   font-size: 32px;
   margin-bottom: 5px;

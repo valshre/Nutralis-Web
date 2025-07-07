@@ -1,0 +1,169 @@
+/* Variables de color y tipografía */
+:root {
+  --primary-color: #5f7b39;
+  --secondary-color: #e5864f;
+  --dark-color: #2d3d25;
+  --light-color: #fefae0;
+  --error-color: #a70000;
+  --white: #ffffff;
+  --gray-border: #cccccc;
+}
+
+/* Estructura base */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 18px; /* Tamaño base ajustado */
+}
+
+/* Contenedor principal */
+.registro-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--white);
+}
+
+/* Barra superior */
+.barra-superior {
+  height: 70px;
+  background-color: var(--primary-color);
+  width: 100%;
+}
+
+/* Título con mejor espaciado */
+.titulo {
+  padding: 40px 0 30px; /* Más espacio arriba y abajo */
+  text-align: center;
+  margin-top: 48px; /* Separación adicional del formulario */
+}
+
+.texto-titulo {
+  font-size: 2.8rem; /* Aprox 45px */
+  color: var(--dark-color);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Contenido principal */
+.contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0px 30px;
+  flex-grow: 1;
+  gap: 25px; /* Espaciado reducido */
+}
+
+@media (min-width: 768px) {
+  .contenido {
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    padding-top: 0px;
+  }
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: -100px; /* Separación del título */
+}
+
+.logo {
+  width: 280px;
+  height: 280px;
+  object-fit: contain;
+}
+
+
+@media (min-width: 768px) {
+  .logo {
+    width: 280px;
+    height: 280px;
+    margin-bottom: 0;
+  }
+}
+
+/* Formulario compacto */
+.formulario {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaciado reducido entre elementos */
+  margin-top:-100px;
+}
+
+/* Inputs */
+.formulario input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 22px;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  background-color: var(--light-color);
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Mensaje de error */
+.error-text {
+  color: var(--error-color);
+  font-weight: 600;
+  text-align: center;
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+/* Botones compactos */
+.btn-enviar, .btn-iniciar {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-enviar {
+  background-color: var(--dark-color);
+  color: var(--white);
+}
+
+.btn-iniciar {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  margin-top: 5px; /* Espacio mínimo entre botones */
+}
+
+/* Texto de registro */
+.texto-login {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+  .texto-titulo {
+    font-size: 1.8rem;
+  }
+  
+  .logo {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .formulario {
+    gap: 12px;
+  }
+}

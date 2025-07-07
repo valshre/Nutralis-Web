@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/RegistroProfesional.css';
+import '../css/Login.css';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ export default function Login() {
           correo: correo.trim(),
           password: password.trim(),
         }),
+        credentials: 'include'
       });
 
       const data = await response.json();
@@ -32,21 +33,32 @@ export default function Login() {
         throw new Error(data.error || 'Error en la solicitud');
       }
 
-      // Guardar token y datos del nutriólogo
-      localStorage.setItem('token', data.token);
-      localStorage.setItem(
-        'nutriologo',
-        JSON.stringify({
-         id_nut: data.id_nut,
-    nombre: data.nombre,
-    tipo_usu: data.tipo_usu
-        })
-      );
+      // Guardar token y datos EXACTAMENTE como lo hacías antes
+      localStorage.setItem('nutriologo', JSON.stringify({
+        id: data.id_nut || data.id, // Mantiene compatibilidad con tu estructura original
+        nombre: data.nombre,
+        tipo_usu: data.tipo_usu,
+        rol: data.tipo_usu === 0 ? 'admin' : 'nutriologo' // Exactamente como lo tenías
+      }));
 
-      // Redirigir a la pantalla principal
-      navigate('/inicio');
+
+
+
+      // Guardar el token por separado
+      localStorage.setItem('token', data.token);
+
+      // REDIRECCIÓN ORIGINAL (tal como la tenías)
+      if (data.tipo_usu === 0 || data.tipo_usu === '0') {
+        navigate('/admin'); // Redirige a /admin para administradores
+      } else {
+        navigate('/inicio'); // Redirige a /inicio para nutriólogos
+      }
+
     } catch (err) {
       setError(err.message || 'Error al conectar con el servidor');
+      // Limpiar localStorage en caso de error
+      localStorage.removeItem('nutriologo');
+      localStorage.removeItem('token');
     } finally {
       setIsLoading(false);
     }

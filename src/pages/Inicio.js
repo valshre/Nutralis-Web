@@ -60,6 +60,10 @@ const Inicio = () => {
                   <JournalText className="icono-accion" />
                   Asignar Dieta
                 </button>
+                  <button onClick={() => navigate('/dieta1')} >
+                  <JournalText className="icono-accion" />
+                  Desvincular paciente
+                </button>
               </div>
             </div>
           ))}

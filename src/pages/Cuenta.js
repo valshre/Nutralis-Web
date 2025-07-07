@@ -13,7 +13,7 @@ const Cuenta = () => {
     <div className="cuenta-container">
       <NavigationPanel />
       <div className="cuenta-content">
-        <h2 className="titulo">Mi Cuenta</h2>
+         <p className="texto-titulo">Mi Cuenta</p>
         <p>Gestiona tu información personal y suscripción</p>
 
         <div className="cuenta-grid">

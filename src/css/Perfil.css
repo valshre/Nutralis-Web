@@ -11,7 +11,19 @@
   font-size: 18px; /* letras más grandes base */
   line-height: 1.6;
 }
+/* Título con mejor espaciado */
+.titulo {
+  padding: 40px 0 30px; /* Más espacio arriba y abajo */
+  text-align: center;
+  margin-top: 48px; /* Separación adicional del formulario */
+}
 
+.texto-titulo {
+  font-size: 2.8rem; /* Aprox 45px */
+  color: var(--dark-color);
+  font-weight: 700;
+  margin: 0;
+}
 .dieta{
   display: flex;
   align-items: center;

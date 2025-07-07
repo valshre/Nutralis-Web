@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import NavigationPanel from '../components/NavigationPanel';
+import React, { useState, useEffect, useRef } from 'react';
 import Volver from '../components/Volver';
 import { useNavigate } from 'react-router-dom';
 import '../css/Dieta2.css';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
-
+const USDA_API_KEY = 'yILlwBPoQm0nD5pgjsaeXlq3503EmAfRAE6fQgjZ';
 
 const tiemposComida = [
   'Desayuno',
@@ -16,104 +14,160 @@ const tiemposComida = [
   'Cena'
 ];
 
+// Función para traducir texto con LibreTranslate
+const traducirTexto = async (texto, sourceLang = 'es', targetLang = 'en') => {
+  try {
+    const res = await axios.post('https://libretranslate.de/translate', {
+      q: texto,
+      source: sourceLang,
+      target: targetLang,
+      format: 'text'
+    }, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    return res.data.translatedText;
+  } catch (err) {
+    console.error('Error al traducir:', err);
+    return texto; // En caso de fallo, devuelve el texto original
+  }
+};
+
 const Dieta2 = () => {
   const navigate = useNavigate();
   const [caloriasTotales, setCaloriasTotales] = useState(0);
   const [alimentos, setAlimentos] = useState({});
   const [formVisible, setFormVisible] = useState({});
-  const [nuevoAlimento, setNuevoAlimento] = useState({ nombre: '', cantidad: '', calorias: '' });
-const [sugerencias, setSugerencias] = useState([]);
-const [mostrarSelect, setMostrarSelect] = useState(false);
-const user_id = 'vaalshere';
-const password = 'graciasapolo';
-const app_name = 'Nutralis';
-const app_version = '1.0';
-const app_uuid = uuidv4();
+  const [nombreInput, setNombreInput] = useState('');
+  const [nuevoAlimento, setNuevoAlimento] = useState({ nombre: '', cantidad: '', calorias: '', caloriasPor100g: '' });
+  const [sugerencias, setSugerencias] = useState([]);
+  const [mostrarSelect, setMostrarSelect] = useState(false);
+  const [cargando, setCargando] = useState(false);
+  const debounceRef = useRef();
 
   const handleAgregar = (tiempo) => {
     setFormVisible((prev) => ({ ...prev, [tiempo]: true }));
   };
 
- const handleInputChange = async (e) => {
-  const { name, value } = e.target;
-  setNuevoAlimento((prev) => ({ ...prev, [name]: value }));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  if (name === 'nombre' && value.length >= 3) {
+    if (name === 'nombre') {
+      setNombreInput(value);
+      setNuevoAlimento({ nombre: '', cantidad: '', calorias: '', caloriasPor100g: '' });
+    } else {
+      setNuevoAlimento((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  useEffect(() => {
+    if (nombreInput.length >= 3) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        buscarAlimento(nombreInput);
+      }, 600);
+    } else {
+      setSugerencias([]);
+      setMostrarSelect(false);
+    }
+  }, [nombreInput]);
+
+  useEffect(() => {
+    if (
+      nuevoAlimento.cantidad &&
+      nuevoAlimento.caloriasPor100g &&
+      !isNaN(nuevoAlimento.cantidad) &&
+      !isNaN(nuevoAlimento.caloriasPor100g)
+    ) {
+      const calculo = (parseFloat(nuevoAlimento.cantidad) * parseFloat(nuevoAlimento.caloriasPor100g)) / 100;
+      setNuevoAlimento((prev) => ({ ...prev, calorias: calculo.toFixed(2) }));
+    } else {
+      setNuevoAlimento((prev) => ({ ...prev, calorias: '' }));
+    }
+  }, [nuevoAlimento.cantidad, nuevoAlimento.caloriasPor100g]);
+
+  const buscarAlimento = async (valor) => {
+    setCargando(true);
     try {
-      const res = await axios.get(
-        'https://world.openfoodfacts.org/cgi/search.pl',
+      // Traducir el texto de español a inglés para búsqueda
+      const valorTraducido = await traducirTexto(valor, 'es', 'en');
+
+      const res = await axios.post(
+        `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${USDA_API_KEY}`,
         {
-          params: {
-            search_terms: value,
-            search_simple: 1,
-            action: 'process',
-            json: 1,
-          },
-          headers: {
-            'User-Agent': 'Nutralis/1.0 (nutralis@example.com)',
-          },
+          query: valorTraducido,
+          pageSize: 10,
+          dataType: ['Foundation', 'Survey (FNDDS)'],
+          requireAllWords: true,
         }
       );
 
-      console.log('Resultado API:', res.data);
+      let productos = res.data.foods;
 
-    const productos = res.data.products
-  .filter(p => p.nova_group === 1 && p.product_name) // alimentos simples
-  .slice(0, 20); // mostrar máximo 5 sugerencias
+      // Traducir cada nombre de alimento de inglés a español
+      const productosTraducidos = await Promise.all(
+        productos.map(async (food) => {
+          const energy = food.foodNutrients.find(n => n.nutrientId === 1008);
+          const nombreEsp = await traducirTexto(food.description, 'en', 'es');
+          return {
+            fdcId: food.fdcId,
+            product_name: food.description,
+            nombre_es: nombreEsp,
+            caloriasPor100g: energy ? energy.value : ''
+          };
+        })
+      );
 
-      setSugerencias(productos);
+      setSugerencias(productosTraducidos);
       setMostrarSelect(true);
     } catch (error) {
       console.error('Error al buscar alimento:', error);
       setSugerencias([]);
       setMostrarSelect(false);
+    } finally {
+      setCargando(false);
     }
-  } else if (name === 'nombre') {
-    setSugerencias([]);
+  };
+
+  const handleSelectChange = (e) => {
+    const producto = sugerencias.find(p => p.fdcId.toString() === e.target.value);
+    if (producto) {
+      setNuevoAlimento({
+        nombre: producto.nombre_es,  // Mostrar en español
+        cantidad: '',
+        calorias: '',
+        caloriasPor100g: producto.caloriasPor100g
+      });
+      setNombreInput(producto.nombre_es);
+    }
     setMostrarSelect(false);
-  }
-};
-
-
-
-const handleSelectChange = (e) => {
-  const producto = sugerencias.find(p => p.code === e.target.value);
-  if (producto) {
-    setNuevoAlimento((prev) => ({
-      ...prev,
-      nombre: producto.product_name || '',
-      calorias: producto.nutriments?.energy_kcal_100g || '',
-    }));
-  }
-  setMostrarSelect(false);
-};
-
+  };
 
   const guardarAlimento = (tiempo) => {
-    const caloriasNum = parseInt(nuevoAlimento.calorias) || 0;
+    const caloriasNum = parseFloat(nuevoAlimento.calorias) || 0;
     setAlimentos((prev) => ({
       ...prev,
       [tiempo]: [...(prev[tiempo] || []), nuevoAlimento]
     }));
     setCaloriasTotales((prev) => prev + caloriasNum);
-    setNuevoAlimento({ nombre: '', cantidad: '', calorias: '' });
+    setNuevoAlimento({ nombre: '', cantidad: '', calorias: '', caloriasPor100g: '' });
+    setNombreInput('');
     setFormVisible((prev) => ({ ...prev, [tiempo]: false }));
   };
 
   const eliminarAlimento = (tiempo, index) => {
-    const caloriasEliminadas = parseInt(alimentos[tiempo][index].calorias) || 0;
+    const cal = parseFloat(alimentos[tiempo][index].calorias) || 0;
     setAlimentos((prev) => {
-      const nuevos = [...prev[tiempo]];
-      nuevos.splice(index, 1);
-      return { ...prev, [tiempo]: nuevos };
+      const copia = [...prev[tiempo]];
+      copia.splice(index, 1);
+      return { ...prev, [tiempo]: copia };
     });
-    setCaloriasTotales((prev) => prev - caloriasEliminadas);
+    setCaloriasTotales((prev) => prev - cal);
   };
 
   return (
     <div className="dieta2-container">
       <Volver />
-    
 
       <div className="dieta2-content">
         <aside className="configuracion">
@@ -124,11 +178,11 @@ const handleSelectChange = (e) => {
           <p><strong>Calorías objetivo:</strong> 2000 kcal</p>
           <hr />
           <h3>Macronutrientes</h3>
-          <p><span className="dot blue"></span> Proteínas 30% <span className="gramos">6666667g</span></p>
-          <p><span className="dot green"></span> Carbohidratos 25% <span className="gramos">5555556g</span></p>
-          <p><span className="dot orange"></span> Lípidos 45% <span className="gramos">888888g</span></p>
+          <p><span className="dot blue"></span> Proteínas 30%</p>
+          <p><span className="dot green"></span> Carbohidratos 25%</p>
+          <p><span className="dot orange"></span> Lípidos 45%</p>
           <hr />
-          <p className="calorias-totales">Calorías totales: {caloriasTotales} kcal</p>
+          <p className="calorias-totales">Calorías totales: {caloriasTotales.toFixed(2)} kcal</p>
         </aside>
 
         <main className="tiempos-comida">
@@ -144,28 +198,29 @@ const handleSelectChange = (e) => {
               </div>
               {formVisible[tiempo] && (
                 <div className="form-alimento">
-                 <input
-  type="text"
-  name="nombre"
-  placeholder="Alimento"
-  value={nuevoAlimento.nombre}
-  onChange={handleInputChange}
-/>
-{mostrarSelect && sugerencias.length > 0 && (
-  <select onChange={handleSelectChange} className="select-sugerencias">
-    <option value="">Selecciona una sugerencia</option>
-    {sugerencias.map((producto) => (
-      <option key={producto.code} value={producto.code}>
-        {producto.product_name}
-      </option>
-    ))}
-  </select>
-)}
-
+                  <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Alimento"
+                    value={nombreInput}
+                    onChange={handleInputChange}
+                    autoComplete="off"
+                  />
+                  {cargando && <p>Cargando...</p>}
+                  {mostrarSelect && sugerencias.length > 0 && (
+                    <select onChange={handleSelectChange} size={5}>
+                      <option value="">Selecciona una sugerencia</option>
+                      {sugerencias.map(p => (
+                        <option key={p.fdcId} value={p.fdcId}>
+                          {p.nombre_es} - {p.caloriasPor100g} kcal/100g
+                        </option>
+                      ))}
+                    </select>
+                  )}
                   <input
                     type="text"
                     name="cantidad"
-                    placeholder="Cantidad"
+                    placeholder="Cantidad (g)"
                     value={nuevoAlimento.cantidad}
                     onChange={handleInputChange}
                   />
@@ -174,10 +229,20 @@ const handleSelectChange = (e) => {
                     name="calorias"
                     placeholder="Calorías"
                     value={nuevoAlimento.calorias}
-                    onChange={handleInputChange}
+                    disabled
                   />
                   <div className="centrado">
-                    <button onClick={() => guardarAlimento(tiempo)} className="btn-agregar">Guardar</button>
+                    <button
+                      onClick={() => guardarAlimento(tiempo)}
+                      className="btn-agregar"
+                      disabled={
+                        !nuevoAlimento.nombre ||
+                        !nuevoAlimento.cantidad ||
+                        !nuevoAlimento.calorias
+                      }
+                    >
+                      Guardar
+                    </button>
                   </div>
                 </div>
               )}
@@ -185,7 +250,7 @@ const handleSelectChange = (e) => {
                 <ul>
                   {alimentos[tiempo].map((item, i) => (
                     <li key={i}>
-                      {item.nombre} - {item.cantidad} - {item.calorias} kcal
+                      {item.nombre} - {item.cantidad} g - {item.calorias} kcal
                       <button className="btn-eliminar" onClick={() => eliminarAlimento(tiempo, i)}>Eliminar</button>
                     </li>
                   ))}
@@ -195,15 +260,14 @@ const handleSelectChange = (e) => {
               )}
             </section>
           ))}
-         <div className="recomendaciones">
-  <h3><i className="bi bi-clipboard-check"></i> Recomendaciones Específicas</h3>
-  <textarea
-    className="input-recomendaciones"
-    placeholder="Instrucciones adicionales para el paciente"
-    rows={3}
-  />
-</div>
-
+          <div className="recomendaciones">
+            <h3><i className="bi bi-clipboard-check"></i> Recomendaciones Específicas</h3>
+            <textarea
+              className="input-recomendaciones"
+              placeholder="Instrucciones adicionales para el paciente"
+              rows={3}
+            />
+          </div>
           <div className="centrado">
             <button className="guardar-dieta" onClick={() => navigate('/inicio')}>Guardar Dieta</button>
           </div>

@@ -1,7 +1,7 @@
 // admin.js
 
 import React, { useState } from 'react';
-import NavigationPanel from '../components/NavigationPanel';
+import NavigationP from '../components/NavigationP';
 import '../css/Admin.css';
 
 const nutriologosData = [
@@ -46,7 +46,7 @@ function Admin() {
 
   return (
     <div className="admin-container">
-      <NavigationPanel />
+      <NavigationP />
       <div className="admin-content">
         <h1 className="admin-title">Gestión de Nutriólogos</h1>
         <p className="admin-description">
