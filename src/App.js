@@ -12,6 +12,7 @@ import Reportes from './pages/Reportes';
 import Admin from './pages/Admin';
 import NoAutorizado from './pages/NoAutorizado'; 
 
+
 // ProtectedRoute que acepta userType simple o array de tipos permitidos
 const ProtectedRoute = ({ children, requiredUserType = null }) => {
   const nutriologo = JSON.parse(localStorage.getItem('nutriologo'));
@@ -72,13 +73,17 @@ export default function App() {
           </ProtectedRoute>
         } />
         
-        <Route path="/perfil" element={
-          <ProtectedRoute requiredUserType={['0', '1']}>
-            <Perfil />
-          </ProtectedRoute>
-        } />
+        <Route
+  path="/perfil/:id"
+  element={
+    <ProtectedRoute requiredUserType={['0', '1']}>
+      <Perfil />
+    </ProtectedRoute>
+  }
+/>
+
         
-        <Route path="/dieta1" element={
+        <Route path="/dieta1/:id" element={
           <ProtectedRoute requiredUserType={['0', '1']}>
             <Dieta1 />
           </ProtectedRoute>

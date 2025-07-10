@@ -18,4 +18,5 @@ connection.connect((err) => {
   console.log('Conexión a la base de datos MySQL establecida.');
 });
 
+
 module.exports = connection;

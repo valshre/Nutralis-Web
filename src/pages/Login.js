@@ -33,9 +33,9 @@ export default function Login() {
         throw new Error(data.error || 'Error en la solicitud');
       }
 
-      // Guardar token y datos EXACTAMENTE como lo hacías antes
+      // Guardar token y datos 
       localStorage.setItem('nutriologo', JSON.stringify({
-        id: data.id_nut || data.id, // Mantiene compatibilidad con tu estructura original
+        id: data.id_nut || data.id, 
         nombre: data.nombre,
         tipo_usu: data.tipo_usu,
         rol: data.tipo_usu === 0 ? 'admin' : 'nutriologo' // Exactamente como lo tenías

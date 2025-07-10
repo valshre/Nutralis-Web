@@ -24,6 +24,41 @@
   font-weight: 700;
   margin: 0;
 }
+
+.antecedentes-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.antecedentes-table th,
+.antecedentes-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  max-width: 150px; /* ancho máximo para columnas */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+}
+
+.antecedentes-table thead {
+  background-color: #f5f5f5;
+}
+
+.antecedentes-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* Opcional: contenedor con scroll para tablas muy largas */
+.antecedentes-table-container {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
 .dieta{
   display: flex;
   align-items: center;
